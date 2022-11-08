@@ -42,3 +42,9 @@ Start Date - 9th November 2022
 - [ ] Create a subset of tobacco dataset
 - [ ] Create custom loader for tobacco dataset 
 - [ ] Create the folder structure for the python scripts
+
+## Paper Summary
+Paper  | Summary
+ ------------ | ------------- 
+Content from cell 1 | Content from cell 2 
+Content in the first column | content in the second column 
