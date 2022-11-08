@@ -46,5 +46,5 @@ Start Date - 9th November 2022
 ## Paper Summary
 Paper  | Summary
  ------------ | ------------- 
-Content from cell 1 | Content from cell 2 
-Content in the first column | content in the second column 
+ | 
+ |
