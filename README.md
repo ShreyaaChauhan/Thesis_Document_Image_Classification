@@ -33,3 +33,12 @@ Final goal of my thesis is to build an whole pipeline for the deep learning mode
  
  ### Additional Resouces
  https://paperswithcode.com/sota/document-image-classification-on-rvl-cdip
+ 
+ 
+ # Logger
+ 
+ ## TODOs
+Start Date - 9th November 2022
+- [] Create a subset of tobacco dataset
+- [] Create custom loader for tobacco dataset 
+- [] Create the folder structure for the python scripts
