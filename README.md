@@ -27,7 +27,9 @@ Final goal of my thesis is to build an whole pipeline for the deep learning mode
   [RVLCDIP](https://huggingface.co/datasets/rvl_cdip/tree/main)
   [Tobacco](https://www.kaggle.com/datasets/patrickaudriaz/tobacco3482jpg)
   
+ 
  ## Important Links
+ [Docstrings](https://google.github.io/styleguide/pyguide.html#383-functions-and-methods)
  
  ### Research Papers
  
