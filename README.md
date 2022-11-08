@@ -1,3 +1,10 @@
+#TODO Section:-
+1. start with tobacco dataset
+2. Create a subset of tobacco dataset
+3. Create custom loader for tobacco dataset 
+4. Create the folder structure for the python scripts
+
+
 # Thesis_Document_Image_Classification
 ## Description
 Final goal of my thesis is to build an whole pipeline for the deep learning model focussed around Document Image Classification. 
