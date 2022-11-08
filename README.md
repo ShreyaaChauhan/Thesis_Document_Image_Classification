@@ -39,6 +39,8 @@ Final goal of my thesis is to build an whole pipeline for the deep learning mode
  
  ## TODOs
 Start Date - 9th November 2022
+- [ ] Data Exploration Tobacco dataset eg no. of samples for each class
+- [ ] Create Train and Test folders for Tobacco2482 Dataset
 - [ ] Create a subset of tobacco dataset
 - [ ] Create custom loader for tobacco dataset 
 - [ ] Create the folder structure for the python scripts
