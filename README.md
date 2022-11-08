@@ -44,7 +44,7 @@ Start Date - 9th November 2022
 - [ ] Create the folder structure for the python scripts
 
 ## Paper Summary
-Paper  | Summary
- ------------ | ------------- 
- | 
- |
+Paper  | Link | Summary & Takeaway
+ ------------ | ------------- |------------- 
+ Paper 1 | 🔗 | link to notes
+ Paper 2 | 🔗 | link to notes
