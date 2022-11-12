@@ -51,8 +51,10 @@ Start Date - 9th November 2022
 13th November 2022
 - [ ] Understand transformer architecture
 - [ ] Replicate the Vanilla transformer architecture
+- [ ] Learn model deployment part
 - [ ] Complete literature review for Document Image Classification
 - [ ] Complete Deep Learning using Pytorch Book
+
 
 ## Paper Summary
 Paper  | Link | Summary & Takeaway
