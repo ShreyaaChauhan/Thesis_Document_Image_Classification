@@ -1,4 +1,14 @@
 # Thesis_Document_Image_Classification
+
+# Table of Contents
+
+1. [Description](#description)
+2. [Software and tools requirements](#software-and-tools-requirements)
+3. [Datasets](#datasets)
+4. [Research Papers](#research-papers)
+5. [TODOs](#todos)
+6. [Other Resources](#other-resources)
+
 ## Description
 Final goal of my thesis is to build an whole pipeline for the deep learning model focussed around Document Image Classification. 
 
@@ -25,19 +35,18 @@ Final goal of my thesis is to build an whole pipeline for the deep learning mode
  
 ## Datasets 
   [RVLCDIP](https://huggingface.co/datasets/rvl_cdip/tree/main)
-  [Tobacco](https://www.kaggle.com/datasets/patrickaudriaz/tobacco3482jpg)
   
+  [Tobacco3482](https://www.kaggle.com/datasets/patrickaudriaz/tobacco3482jpg)
+
+
+## Research Papers
+Paper  | Link | Year | Summary & Takeaway
+ --- | --- |--- |---
+ Attention Is All You Need | [🔗](https://arxiv.org/pdf/1706.03762.pdf) | 2017 | link to notes
+ An Image is worth 16*16 words: </br> Transformer for Image Recognition at scrale | [🔗](https://arxiv.org/pdf/2010.11929.pdf) | 2021| link to notes
  
- ## Important Links
- [Docstrings](https://google.github.io/styleguide/pyguide.html#383-functions-and-methods)
  
- ### Research Papers
- 
- ### Additional Resouces
- https://paperswithcode.com/sota/document-image-classification-on-rvl-cdip
- 
- 
- # Logger
+  # Logger
  
  ## TODOs
 Start Date - 9th November 2022
@@ -56,10 +65,10 @@ Start Date - 9th November 2022
 - [ ] Complete Deep Learning using Pytorch Books
 - [ ] Code refactoring
 - [ ] Research 2d Image enhancement techniques
-
-
-## Paper Summary
-Paper  | Link | Year | Summary & Takeaway
- --- | --- |--- |---
- Attention Is All You Need | [🔗](https://arxiv.org/pdf/1706.03762.pdf) | 2017 | link to notes
- An Image is worth 16*16 words: </br> Transformer for Image Recognition at scrale | [🔗](https://arxiv.org/pdf/2010.11929.pdf) | 2021| link to notes
+ 
+   
+ 
+ ## Other Resources
+ [Docstrings](https://google.github.io/styleguide/pyguide.html#383-functions-and-methods)
+ 
+ [Papers with codes - RVLCDIP dataset](https://paperswithcode.com/sota/document-image-classification-on-rvl-cdip)
