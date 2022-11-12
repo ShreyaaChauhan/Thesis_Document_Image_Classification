@@ -55,10 +55,11 @@ Start Date - 9th November 2022
 - [ ] Complete literature review for Document Image Classification
 - [ ] Complete Deep Learning using Pytorch Books
 - [ ] Code refactoring
+- [ ] Research 2d Image enhancement techniques
 
 
 ## Paper Summary
-Paper  | Link | Summary & Takeaway
- ------------ | ------------- |------------- 
- Paper 1 | 🔗 | link to notes
- Paper 2 | 🔗 | link to notes
+Paper  | Link | Year | Summary & Takeaway
+ --- | --- |--- |---
+ Attention Is All You Need | [🔗](https://arxiv.org/pdf/1706.03762.pdf) | 2017 | link to notes
+ An Image is worth 16*16 words: </br> Transformer for Image Recognition at scrale | [🔗](https://arxiv.org/pdf/2010.11929.pdf) | 2021| link to notes
