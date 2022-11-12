@@ -45,9 +45,6 @@ Paper  | Link | Year | Summary & Takeaway
  Attention Is All You Need | [🔗](https://arxiv.org/pdf/1706.03762.pdf) | 2017 | link to notes
  An Image is worth 16*16 words: </br> Transformer for Image Recognition at scrale | [🔗](https://arxiv.org/pdf/2010.11929.pdf) | 2021| link to notes
  
- 
-  # Logger
- 
  ## [TODOs](/Docs/thesis_planning.md)
 
    
