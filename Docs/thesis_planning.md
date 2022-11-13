@@ -9,7 +9,7 @@ Start Date - 9th November 2022
 - [X] Create the folder structure for the python scripts
 
 13th November 2022
-- [ ] Generate 10 sets of randomly shuffled dataset for Tobacco dataset
+- [X] Generate 10 sets of randomly shuffled dataset for Tobacco dataset
 - [ ] Understand transformer architecture
 - [ ] Replicate the Vanilla transformer architecture
 - [ ] Learn model deployment part
