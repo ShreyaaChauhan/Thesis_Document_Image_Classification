@@ -9,12 +9,12 @@ Start Date - 9th November 2022
 - [X] Create the folder structure for the python scripts
 
 13th November 2022
-- [X] Generate 10 sets of randomly shuffled dataset for Tobacco dataset
+- [X] Generate 10 sets of randomly shuffled dataset for Tobacco dataset ![](https://geps.dev/progress/100)
 - [ ] Understand transformer architecture
 - [ ] Replicate the Vanilla transformer architecture
 - [ ] Learn model deployment part
 - [ ] Complete literature review for Document Image Classification
-- [ ] Complete Deep Learning using Pytorch Books **(working on it currently)**
+- [ ] Complete Deep Learning using Pytorch Books **(working on it currently 144/1187)** ![](https://geps.dev/progress/12)
 - [ ] Code refactoring
 - [ ] Research 2d Image enhancement techniques
  
