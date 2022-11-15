@@ -19,5 +19,5 @@ Start Date - 9th November 2022
 - [ ] Research 2d Image enhancement techniques
 
 15th November 2022
-- [ ] Merge load_checkpoint functionality
+- [X] Merge load_checkpoint functionality
 - [ ] Get Knowledge on Natural language Processing
