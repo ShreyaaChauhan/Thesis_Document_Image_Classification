@@ -17,4 +17,7 @@ Start Date - 9th November 2022
 - [ ] Complete Deep Learning using Pytorch Books **(working on it currently 260/1187)** ![](https://geps.dev/progress/22)
 - [ ] Code refactoring
 - [ ] Research 2d Image enhancement techniques
+
+15th November 2022
 - [ ] Merge load_checkpoint functionality
+- [ ] Get Knowledge on Natural language Processing
