@@ -21,3 +21,6 @@ Start Date - 9th November 2022
 15th November 2022
 - [X] Merge load_checkpoint functionality
 - [ ] Get Knowledge on Natural language Processing
+
+15th November 2022 
+- [ ] Dig more into topic Class-Balanced Loss Based on Effective Number of Samples eg https://arxiv.org/abs/1901.05555 find more papers and methods to do so
