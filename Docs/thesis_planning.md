@@ -24,5 +24,4 @@ Start Date - 9th November 2022
 
 15th November 2022 
 - [ ] Dig more into topic Class-Balanced Loss Based on Effective Number of Samples eg https://arxiv.org/abs/1901.05555 find more papers and methods to do so
-- [ ] Dig more into metrices for classification prepare notes
-- [ ] Prepare notes on classification loss eg BCE, cross entropy
+- [X] Dig more into metrices for classification loss eg BCE, cross entropy
