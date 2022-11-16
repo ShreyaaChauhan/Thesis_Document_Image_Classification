@@ -54,4 +54,4 @@ Paper  | Link | Year | Summary & Takeaway
  
  [Papers with codes - RVLCDIP dataset](https://paperswithcode.com/sota/document-image-classification-on-rvl-cdip)
  
- ✨ https://naadispeaks.wordpress.com/2021/07/31/handling-imbalanced-classes-with-weighted-loss-in-pytorch/
+ ✨ [Handling Imbalanced with weighted loss](https://naadispeaks.wordpress.com/2021/07/31/handling-imbalanced-classes-with-weighted-loss-in-pytorch/)
