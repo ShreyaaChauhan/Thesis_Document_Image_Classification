@@ -53,3 +53,5 @@ Paper  | Link | Year | Summary & Takeaway
  [Docstrings](https://google.github.io/styleguide/pyguide.html#383-functions-and-methods)
  
  [Papers with codes - RVLCDIP dataset](https://paperswithcode.com/sota/document-image-classification-on-rvl-cdip)
+ 
+ ✨ https://naadispeaks.wordpress.com/2021/07/31/handling-imbalanced-classes-with-weighted-loss-in-pytorch/
