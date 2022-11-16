@@ -56,4 +56,5 @@ Paper  | Link | Year | Summary & Takeaway
  
  ✨ [Handling Imbalanced with weighted loss](https://naadispeaks.wordpress.com/2021/07/31/handling-imbalanced-classes-with-weighted-loss-in-pytorch/)
  
-Library/package :- https://github.com/ufoym/imbalanced-dataset-sampler
+Library/package :- https://github.com/ufoym/imbalanced-dataset-sampler, 
+https://medium.com/analytics-vidhya/augment-your-data-easily-with-pytorch-313f5808fc8b
