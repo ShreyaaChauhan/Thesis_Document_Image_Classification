@@ -1,7 +1,11 @@
-import torch
+from __future__ import annotations
 
+import torch
 from tqdm.auto import tqdm
-from typing import Dict, List, Tuple
+
+# from typing import Dict
+# from typing import List
+# from typing import Tuple
 
 
 def train_step(
@@ -10,7 +14,7 @@ def train_step(
     loss_fn: torch.nn.Module,
     optimizer: torch.optim.Optimizer,
     device: torch.device,
-) -> Tuple[float, float]:
+):
     """Trains a PyTorch model for a single epoch.
 
     Turns a target PyTorch model to training mode and then
@@ -34,7 +38,7 @@ def train_step(
     model.train()
 
     # Setup train loss and train accuracy values
-    train_loss, train_acc = 0, 0
+    train_loss, train_acc = 0.0, 0.0
 
     # Loop through data loader data batches
     for batch, (X, y) in enumerate(dataloader):
@@ -72,7 +76,7 @@ def test_step(
     dataloader: torch.utils.data.DataLoader,
     loss_fn: torch.nn.Module,
     device: torch.device,
-) -> Tuple[float, float]:
+):
     """Tests a PyTorch model for a single epoch.
 
     Turns a target PyTorch model to "eval" mode and then performs
@@ -94,7 +98,7 @@ def test_step(
     model.eval()
 
     # Setup test loss and test accuracy values
-    test_loss, test_acc = 0, 0
+    test_loss, test_acc = 0.0, 0.0
 
     # Turn on inference context manager
     with torch.inference_mode():
@@ -112,7 +116,8 @@ def test_step(
 
             # Calculate and accumulate accuracy
             test_pred_labels = test_pred_logits.argmax(dim=1)
-            test_acc += (test_pred_labels == y).sum().item() / len(test_pred_labels)
+            test_acc += (test_pred_labels == y).sum().item() / \
+                len(test_pred_labels)
 
     # Adjust metrics to get average loss and accuracy per batch
     test_loss = test_loss / len(dataloader)
@@ -128,7 +133,7 @@ def train(
     loss_fn: torch.nn.Module,
     epochs: int,
     device: torch.device,
-) -> Dict[str, List]:
+) -> dict[str, list]:
     """Trains and tests a PyTorch model.
 
     Passes a target PyTorch models through train_step() and test_step()
@@ -161,7 +166,12 @@ def train(
                     test_acc: [0.3400, 0.2973]}
     """
     # Create empty results dictionary
-    results = {"train_loss": [], "train_acc": [], "test_loss": [], "test_acc": []}
+    results: dict[str, list] = {
+        'train_loss': [],
+        'train_acc': [],
+        'test_loss': [],
+        'test_acc': [],
+    }
 
     # Loop through training and testing steps for a number of epochs
     for epoch in tqdm(range(epochs)):
@@ -173,23 +183,26 @@ def train(
             device=device,
         )
         test_loss, test_acc = test_step(
-            model=model, dataloader=test_dataloader, loss_fn=loss_fn, device=device
+            model=model,
+            dataloader=test_dataloader,
+            loss_fn=loss_fn,
+            device=device,
         )
 
         # Print out what's happening
         print(
-            f"Epoch: {epoch+1} | "
-            f"train_loss: {train_loss:.4f} | "
-            f"train_acc: {train_acc:.4f} | "
-            f"test_loss: {test_loss:.4f} | "
-            f"test_acc: {test_acc:.4f}"
+            f'Epoch: {epoch+1} | '
+            f'train_loss: {train_loss:.4f} | '
+            f'train_acc: {train_acc:.4f} | '
+            f'test_loss: {test_loss:.4f} | '
+            f'test_acc: {test_acc:.4f}',
         )
 
         # Update results dictionary
-        results["train_loss"].append(train_loss)
-        results["train_acc"].append(train_acc)
-        results["test_loss"].append(test_loss)
-        results["test_acc"].append(test_acc)
+        results['train_loss'].append(train_loss)
+        results['train_acc'].append(train_acc)
+        results['test_loss'].append(test_loss)
+        results['test_acc'].append(test_acc)
 
     # Return the filled results at the end of the epochs
     return results
