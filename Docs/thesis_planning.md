@@ -14,7 +14,7 @@ Start Date - 9th November 2022
 - [ ] Replicate the Vanilla transformer architecture
 - [ ] Learn model deployment part
 - [ ] Complete literature review for Document Image Classification
-- [ ] Complete Deep Learning using Pytorch Books **(working on it currently 421/1187)** ![](https://geps.dev/progress/36)
+- [ ] Complete Deep Learning using Pytorch Books **(working on it currently 503/1187)** ![](https://geps.dev/progress/42)
 - [ ] Code refactoring
 - [ ] Research 2d Image enhancement techniques
 
@@ -27,5 +27,5 @@ Start Date - 9th November 2022
 - [X] Dig more into metrices for classification loss eg BCE, cross entropy
 
 21st November 2022
-- [ ] Explore Rich 
-- [ ] Implement it into existing code
+- [X] Explore Rich 
+- [X] Implement it into existing code
