@@ -37,3 +37,4 @@ Start Date - 9th November 2022
 - [ ] Transfer Learning and Pre trained model
 - [ ] Do more reaserch into that find the best working pre trained model (self supervised pretrained model)
 - [ ] Start Documenting stuff
+- [ ] More reaserch on optimizer in deep learning or optiminzer survey eg https://www.youtube.com/watch?v=TudQZtgpoHk
