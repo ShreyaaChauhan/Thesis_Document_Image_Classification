@@ -29,3 +29,10 @@ Start Date - 9th November 2022
 21st November 2022
 - [X] Explore Rich 
 - [X] Implement it into existing code
+
+23rd Novamber 2022
+- [ ] Create a normalizer function to get the statistic of the dataset (computing channel statistics)
+- [ ] Learning late test to get the best learning rate
+- [ ] Sceduler do more research into that
+- [ ] Transfer Learning and Pre trained model
+- [ ] Do more reaserch into that find the best working pre trained model (self supervised pretrained model)
