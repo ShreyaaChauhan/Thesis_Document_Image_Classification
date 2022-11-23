@@ -36,3 +36,4 @@ Start Date - 9th November 2022
 - [ ] Sceduler do more research into that
 - [ ] Transfer Learning and Pre trained model
 - [ ] Do more reaserch into that find the best working pre trained model (self supervised pretrained model)
+- [ ] Start Documenting stuff
