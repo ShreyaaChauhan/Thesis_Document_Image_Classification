@@ -14,7 +14,7 @@ Start Date - 9th November 2022
 - [ ] Replicate the Vanilla transformer architecture
 - [ ] Learn model deployment part
 - [ ] Complete literature review for Document Image Classification
-- [ ] Complete Deep Learning using Pytorch Books **(working on it currently 590/1187)** ![](https://geps.dev/progress/49)
+- [ ] Complete Deep Learning using Pytorch Books **(working on it currently 595/1187)** ![](https://geps.dev/progress/50)
 - [ ] Code refactoring
 - [ ] Research 2d Image enhancement techniques
 
