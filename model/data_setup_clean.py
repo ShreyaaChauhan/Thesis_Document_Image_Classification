@@ -3,7 +3,6 @@ from __future__ import annotations
 import os
 import shutil
 from collections import Counter
-
 import numpy as np
 import torch
 from imutils import paths
@@ -44,16 +43,16 @@ def make_balanced_sampler(y):
 
 def print_class_image_count(dataLoader):
     data = {
-        '0': 0,
-        '1': 0,
-        '2': 0,
-        '3': 0,
-        '4': 0,
-        '5': 0,
-        '6': 0,
-        '7': 0,
-        '8': 0,
-        '9': 0,
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
     }
     for t in iter(dataLoader):
         classes, counts = t[1].unique(return_counts=True)
@@ -61,13 +60,16 @@ def print_class_image_count(dataLoader):
             c = c.cpu().detach().numpy()
             cs = cs.cpu().detach().numpy()
             data[str(c)] = int(data[str(c)]) + int(cs)
-    print(data)
+    return data
 
 
 def build_dataset(
-    datasetDir: str, trainDir: str, testDir: str, valSplit: float,
+    datasetDir: str,
+    trainDir: str,
+    testDir: str,
+    valSplit: float,
 ):  # noqa
-    print('[INFO] Loading image paths...')
+    print("[[[INFO]Loading image paths...")
     imagePaths = list(paths.list_images(datasetDir))
     os.makedirs(trainDir, exist_ok=True)
     os.makedirs(testDir, exist_ok=True)
@@ -76,16 +78,16 @@ def build_dataset(
     trainImagesLen = len(imagePaths) - valImagesLen
     trainPaths = imagePaths[:trainImagesLen]
     valPaths = imagePaths[trainImagesLen:]
-    print('[INFO] Copying Image from sorce folder to destination...')
+    print("[[INFO]Copying Image from sorce folder to destination...")
     copy_images(trainPaths, trainDir)
     copy_images(valPaths, testDir)
     print(
-        f'[INFO] {len(list(paths.list_images(trainDir)))} \
-    images in TRAIN folder...',
+        f"[[INFO] {len(list(paths.list_images(trainDir)))} \
+    images in TRAIN folder...",
     )
     print(
-        f'[INFO] {len(list(paths.list_images(testDir)))} \
-    images in Test folder...',
+        f"[[INFO] {len(list(paths.list_images(testDir)))} \
+    images in Test folder...",
     )
 
 
@@ -98,18 +100,18 @@ def load_data(
     imbalanced: bool,
     num_workers: int,
 ):
-    print('[INFO] Loading the training and validation dataset...')
+    print("[[INFO] Loading the training and validation dataset...")
     trainDataset = ImageFolder(root=trainDir, transform=trainTransforms)
     valDataset = ImageFolder(root=testDir, transform=valTransforms)
 
-    print(f'[INFO] Training dataset contains {len(trainDataset)} samples...')
-    print(f'[INFO] Validation dataset contains {len(valDataset)} samples...')
+    print(f"[[INFO] Training dataset contains {len(trainDataset)} samples...")
+    print(f"[[INFO] Validation dataset contains {len(valDataset)} samples...")
 
     # get class names
     class_names = trainDataset.classes
-    print(f'[INFO] Dataset contains following classes \n[INFO]  {class_names}')
-    print(f'[INFO] {dict(Counter(trainDataset.targets))}')
-    print('[INFO] Creating training and validation set dataloaders...')
+    print(f"[[INFO] Dataset contains following classes \n[[INFO]  {class_names}")
+    print(f"[[INFO] {dict(Counter(trainDataset.targets))}")
+    print("[[INFO] Creating training and validation set dataloaders...")
     if imbalanced:
         labels = [data[1] for data in trainDataset]
         sampler = make_balanced_sampler(labels)
@@ -120,8 +122,8 @@ def load_data(
             sampler=sampler,
             pin_memory=True,
         )
-        print('[INFO] After Sampling Imbalanced Dataset')
-        print(f'[INFO] {print_class_image_count(trainDataLoader)}')
+        print("[[INFO] After Sampling Imbalanced Dataset")
+        print(f"[[INFO] {print_class_image_count(trainDataLoader)}")
 
     else:
         trainDataLoader = DataLoader(

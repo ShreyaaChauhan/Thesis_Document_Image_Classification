@@ -1,11 +1,11 @@
-# TODOs and logs 
+# TODOs and logs
 
 Start Date - 9th November 2022
 - [X] Create directory structure for thesis code repo
 - [X] Data Exploration Tobacco dataset eg no. of samples for each class
 - [X] Create Train and Test folders for Tobacco2482 Dataset
 - [X] Create a subset of tobacco dataset
-- [X] Create custom loader for tobacco dataset 
+- [X] Create custom loader for tobacco dataset
 - [X] Create the folder structure for the python scripts
 
 13th November 2022
@@ -22,14 +22,14 @@ Start Date - 9th November 2022
 - [X] Merge load_checkpoint functionality
 - [ ] Get Knowledge on Natural language Processing
 
-15th November 2022 
+15th November 2022
 - [ ] Dig more into topic Class-Balanced Loss Based on Effective Number of Samples eg https://arxiv.org/abs/1901.05555 find more papers and methods to do so
 - [X] Dig more into metrices for classification loss eg BCE, cross entropy
 
 21st November 2022
-- [ ] Explore Rich 
+- [ ] Explore Rich
 - [ ] Implement it into existing code
-- [X] Explore Rich 
+- [X] Explore Rich
 - [X] Implement it into existing code
 
 23rd Novamber 2022
@@ -43,4 +43,3 @@ Start Date - 9th November 2022
 
 28th November 2022
 - [ ] Look into [this](https://github.com/IgorSusmelj/pytorch-styleguide#recommended-code-structure-for-training-your-model) pytorch style guide and follow it in your code.
-
