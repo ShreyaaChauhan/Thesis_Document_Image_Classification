@@ -38,3 +38,6 @@ Start Date - 9th November 2022
 - [ ] Do more reaserch into that find the best working pre trained model (self supervised pretrained model)
 - [ ] Start Documenting stuff
 - [ ] More reaserch on optimizer in deep learning or optiminzer survey eg https://www.youtube.com/watch?v=TudQZtgpoHk
+
+28th November 2022
+- [ ] Look into [this](https://github.com/IgorSusmelj/pytorch-styleguide#recommended-code-structure-for-training-your-model) pytorch style guide and follow it in your code 
