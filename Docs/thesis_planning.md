@@ -14,7 +14,7 @@ Start Date - 9th November 2022
 - [ ] Replicate the Vanilla transformer architecture
 - [ ] Learn model deployment part
 - [ ] Complete literature review for Document Image Classification
-- [ ] Complete Deep Learning using Pytorch Books **(working on it currently 421/1187)** ![](https://geps.dev/progress/36)
+- [ ] Complete Deep Learning using Pytorch Books **(working on it currently 663/1187)** ![](https://geps.dev/progress/55)
 - [ ] Code refactoring
 - [ ] Research 2d Image enhancement techniques
 
@@ -29,3 +29,18 @@ Start Date - 9th November 2022
 21st November 2022
 - [ ] Explore Rich 
 - [ ] Implement it into existing code
+- [X] Explore Rich 
+- [X] Implement it into existing code
+
+23rd Novamber 2022
+- [ ] Create a normalizer function to get the statistic of the dataset (computing channel statistics)
+- [ ] Learning late test to get the best learning rate
+- [ ] Sceduler do more research into that
+- [ ] Transfer Learning and Pre trained model
+- [ ] Do more reaserch into that find the best working pre trained model (self supervised pretrained model)
+- [ ] Start Documenting stuff
+- [ ] More reaserch on optimizer in deep learning or optiminzer survey eg https://www.youtube.com/watch?v=TudQZtgpoHk
+
+28th November 2022
+- [ ] Look into [this](https://github.com/IgorSusmelj/pytorch-styleguide#recommended-code-structure-for-training-your-model) pytorch style guide and follow it in your code.
+
