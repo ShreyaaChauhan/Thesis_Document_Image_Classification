@@ -7,12 +7,11 @@ import os
 import torch.functional as F
 from torch.utils.data import DataLoader, TensorDataset, random_split
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import confusion_matrix, roc_curve, precision_recall_curve, auc
+from sklearn.metrics import confusion_matrix, roc_curve, precision_recall_curve, auc, classification_report, roc_auc_score
 from sklearn.datasets import make_moons
 from sklearn.preprocessing import StandardScaler
 import pandas as pd
 import seaborn as sns
-
 from torch.utils.tensorboard import SummaryWriter
 import random
 import config as cfg
@@ -21,7 +20,7 @@ import matplotlib.pyplot as plt
 
 plt.style.use("fivethirtyeight")
 
-class engine:
+class Engine:
     def __init__(self, model, loss_fn, optimizer):
         self.model = model 
         self.loss_fn = loss_fn 
@@ -73,19 +72,21 @@ class engine:
             self.model.train()
             yhat = self.model(x)
             loss = self.loss_fn(yhat, y)
+            
             loss.backward()
             self.optimizer.step()
             self.optimizer.zero_grad()
             # calculating classification accuracy
             # y_pred_class = torch.argmax(torch.softmax(yhat, dim=1), dim=1)
             # acc = (y_pred_class == y).sum().item() / len(yhat)
+            acc = self.accuracy( yhat, y)
             
-            if str(self.loss_fn) =='BCEWithLogitsLoss()':
-                y_hat = ((yhat>0.0)==y).float()
-                acc = y_hat.mean()*100
-            elif str(self.loss_fn) == 'BCELoss()':
-                y_hat = (yhat>=self.threshold).float()
-                acc = (y_hat==y).float().mean()*100
+            # if str(self.loss_fn) =='BCEWithLogitsLoss()':
+            #     y_hat = ((yhat>0.0)==y).float()
+            #     acc = y_hat.mean()*100
+            # elif str(self.loss_fn) == 'BCELoss()' or str(self.loss_fn) == 'CrossEntropyLoss()' :
+            #     y_hat = (yhat>=self.threshold).float()
+            #     acc = (y_hat==y).float().mean()*100
             return loss.item(), acc
         return perform_train_step
     
@@ -96,13 +97,15 @@ class engine:
             loss = self.loss_fn(yhat, y)
             #y_pred_class = yhat.argmax(dim=1)
             #acc = (y_pred_class==y).sum().item()/len(yhat)
-            if str(self.loss_fn) =='BCEWithLogitsLoss()':
-                y_hat = ((yhat>0.0)==y).float()
-                acc = (y_hat).mean()*100
+            acc = self.accuracy(yhat, y)
+            
+            # if str(self.loss_fn) =='BCEWithLogitsLoss()':
+            #     y_hat = ((yhat>0.0)==y).float()
+            #     acc = (y_hat).mean()*100
                 
-            elif str(self.loss_fn) == 'BCELoss()':
-                y_hat = (yhat>=self.threshold).float()
-                acc = (y_hat==y).float().mean()*100
+            # elif str(self.loss_fn) == 'BCELoss()':
+            #     y_hat = (yhat>=self.threshold).float()
+            #     acc = (y_hat==y).float().mean()*100
             return loss.item(), acc
         return perform_val_step
     
@@ -184,10 +187,17 @@ class engine:
         y__hat = y__hat[16:].float().numpy()
         Y =  Y[16:].float().numpy()
         self.plot_confusion_matrix(Y, y__hat)
+        print("classification report is \n",classification_report(Y, y__hat))
+        #self.roc_auc_score_multiclass(Y, y__hat)
+        
         self.save_checkpoint(epoch, LATEST=True)
         if self.writer:
             self.writer.close()
-            
+    
+    def accuracy(self, pred, label):
+        _, out = torch.max(pred, dim=1)
+        return torch.tensor(torch.sum(out == label).item()/len(pred))
+    
     def save_checkpoint(self, epoch, LATEST: bool = False):
         ckpt_dir_path = os.path.join(os.path.abspath(os.path.dirname(__file__)),
             "checkpoints",)
@@ -280,54 +290,85 @@ class engine:
         true_positive = cm[1][1]
         return TN, FP, FN, TP, true_negative, false_positive, false_negative, true_positive
     
+    # def accuracy(self,y_true, y_pred):
+    #     return np.count_nonzero(y_true==y_pred)/len(y_pred)
+    
+    def roc_auc_score_multiclass(self, actual_class, pred_class, average = "macro"):
+        actual_class = actual_class.tolist()
+        pred_class = pred_class.tolist()
+        #creating a set of all the unique classes using the actual class list
+        unique_class = set(('1','0'))
+        roc_auc_dict = {}
+        for per_class in unique_class:
+            
+            #creating a list of all the classes except the current class 
+            other_class = [x for x in unique_class if x != per_class]
+
+            #marking the current class as 1 and all other classes as 0
+            new_actual_class = [0 if x in other_class else 1 for x in actual_class]
+            new_pred_class = [0 if x in other_class else 1 for x in pred_class]
+
+            #using the sklearn metrics method to calculate the roc_auc_score
+            roc_auc = roc_auc_score(new_actual_class, new_pred_class, average = average)
+            roc_auc_dict[per_class] = roc_auc
+
+        return roc_auc_dict
+    
+      
+      
+      
         
         
-X, y = make_moons(n_samples=100, noise=0.3, random_state=0)
-X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=.2, random_state=13)
-sc = StandardScaler()
-sc.fit(X_train)
+# X, y = make_moons(n_samples=100, noise=0.3, random_state=0)
+# X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=.2, random_state=13)
+# sc = StandardScaler()
+# sc.fit(X_train)
 
-X_train = sc.transform(X_train)
-X_val = sc.transform(X_val)
+# X_train = sc.transform(X_train)
+# X_val = sc.transform(X_val)
 
-torch.manual_seed(13)
+# torch.manual_seed(13)
 
-# Builds tensors from numpy arrays
-x_train_tensor = torch.as_tensor(X_train).float()
-y_train_tensor = torch.as_tensor(y_train.reshape(-1, 1)).float()
+# # Builds tensors from numpy arrays
+# x_train_tensor = torch.as_tensor(X_train).float()
+# y_train_tensor = torch.as_tensor(y_train.reshape(-1, 1)).float()
 
-x_val_tensor = torch.as_tensor(X_val).float()
-y_val_tensor = torch.as_tensor(y_val.reshape(-1, 1)).float()
+# x_val_tensor = torch.as_tensor(X_val).float()
+# y_val_tensor = torch.as_tensor(y_val.reshape(-1, 1)).float()
 
-# Builds dataset containing ALL data points
-train_dataset = TensorDataset(x_train_tensor, y_train_tensor)
-val_dataset = TensorDataset(x_val_tensor, y_val_tensor)
+# # Builds dataset containing ALL data points
+# train_dataset = TensorDataset(x_train_tensor, y_train_tensor)
+# val_dataset = TensorDataset(x_val_tensor, y_val_tensor)
 
-# Builds a loader of each set
-train_loader = DataLoader(dataset=train_dataset, batch_size=16, shuffle=True)
-val_loader = DataLoader(dataset=val_dataset, batch_size=16)
+# # Builds a loader of each set
+# train_loader = DataLoader(dataset=train_dataset, batch_size=16, shuffle=True)
+# val_loader = DataLoader(dataset=val_dataset, batch_size=16)
 
 
-# loss_fn_logits = nn.BCEWithLogitsLoss(reduction='mean')
-lr = 0.1
-torch.manual_seed(42)
-model = nn.Sequential()
-model.add_module('hidden', nn.Linear(2,10))
-model.add_module('activation', nn.ReLU())
-model.add_module('output',nn.Linear(10,1))
-model.add_module('sigmoid', nn.Sigmoid())
+# # loss_fn_logits = nn.BCEWithLogitsLoss(reduction='mean')
+# lr = 0.1
+# torch.manual_seed(42)
+# model = nn.Sequential()
+# model.add_module('hidden', nn.Linear(2,10))
+# model.add_module('activation', nn.ReLU())
+# model.add_module('output',nn.Linear(10,1))
+# model.add_module('sigmoid', nn.Sigmoid())
 
-optimizer = optim.SGD(model.parameters(), lr = lr)
-#loss_fn = nn.BCEWithLogitsLoss()
-loss_fn = nn.BCELoss()
-n_epochs = 100
-sbs = engine(model, loss_fn, optimizer)
-sbs.set_loader(train_loader, val_loader)
-sbs.set_tensorboard('classy')
-sbs.train(n_epochs=100)
-sbs.plot_losses()
-sbs.plot_accuracy()
-print(model.state_dict())
+# optimizer = optim.SGD(model.parameters(), lr = lr)
+# #loss_fn = nn.BCEWithLogitsLoss()
+# loss_fn = nn.BCELoss()
+# n_epochs = 100
+# sbs = engine(model, loss_fn, optimizer)
+# sbs.set_loader(train_loader, val_loader)
+# sbs.set_tensorboard('classy')
+# sbs.train(n_epochs=100)
+# sbs.plot_losses()
+# sbs.plot_accuracy()
+
+
+
+
+
 '''
 torch.manual_seed(42)
 model1 = nn.Sequential()

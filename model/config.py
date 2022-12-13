@@ -37,7 +37,7 @@ TRAIN_TRANSFORMS = transforms.Compose(
         transforms.Resize(size=(INPUT_HEIGHT, INPUT_WIDTH)),
         # transforms.RandomHorizontalFlip(p=0.25),
         # transforms.RandomVerticalFlip(p=0.25),
-        # transforms.RandomRotation(degrees=15),
+        # transforms.RandomRotation(degrees=15),F
         transforms.ToTensor(),
         # transforms.Normalize(mean=[0.485],
         #                      std=[0.229])
