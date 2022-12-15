@@ -17,11 +17,11 @@ import random
 import config as cfg
 import shutil
 import matplotlib.pyplot as plt
-
+from data_setup import load_complete_val_dataset
 plt.style.use("fivethirtyeight")
 
 class Engine:
-    def __init__(self, model, loss_fn, optimizer):
+    def __init__(self, model, loss_fn, optimizer, val_transforms):
         self.model = model 
         self.loss_fn = loss_fn 
         self.optimizer = optimizer 
@@ -46,6 +46,7 @@ class Engine:
         self.false_negative = 0
         self.true_positive = 0
         self.threshold = 0.5
+        self.val_transforms = val_transforms
         
     def to(self,device):
         try:
@@ -72,22 +73,23 @@ class Engine:
             self.model.train()
             yhat = self.model(x)
             loss = self.loss_fn(yhat, y)
-            
             loss.backward()
             self.optimizer.step()
             self.optimizer.zero_grad()
             # calculating classification accuracy
             # y_pred_class = torch.argmax(torch.softmax(yhat, dim=1), dim=1)
             # acc = (y_pred_class == y).sum().item() / len(yhat)
-            acc = self.accuracy( yhat, y)
-            
+            #acc = self.accuracy( yhat, y)
+            _, out = torch.max(yhat, dim=1)
+            acc = torch.tensor(torch.sum(out == y).item())
+            total_elements = len(y)
             # if str(self.loss_fn) =='BCEWithLogitsLoss()':
             #     y_hat = ((yhat>0.0)==y).float()
             #     acc = y_hat.mean()*100
             # elif str(self.loss_fn) == 'BCELoss()' or str(self.loss_fn) == 'CrossEntropyLoss()' :
             #     y_hat = (yhat>=self.threshold).float()
             #     acc = (y_hat==y).float().mean()*100
-            return loss.item(), acc
+            return loss.item(), acc, total_elements
         return perform_train_step
     
     def _make_val_step(self):
@@ -97,8 +99,10 @@ class Engine:
             loss = self.loss_fn(yhat, y)
             #y_pred_class = yhat.argmax(dim=1)
             #acc = (y_pred_class==y).sum().item()/len(yhat)
-            acc = self.accuracy(yhat, y)
-            
+            # acc = self.accuracy(yhat, y)
+            _, out = torch.max(yhat, dim=1)
+            acc = torch.tensor(torch.sum(out == y).item())
+            total_elements = len(y)
             # if str(self.loss_fn) =='BCEWithLogitsLoss()':
             #     y_hat = ((yhat>0.0)==y).float()
             #     acc = (y_hat).mean()*100
@@ -106,7 +110,7 @@ class Engine:
             # elif str(self.loss_fn) == 'BCELoss()':
             #     y_hat = (yhat>=self.threshold).float()
             #     acc = (y_hat==y).float().mean()*100
-            return loss.item(), acc
+            return loss.item(), acc, total_elements
         return perform_val_step
     
     def _mini_batch(self, validation = False):
@@ -122,15 +126,24 @@ class Engine:
         
         mini_batch_loss = []
         mini_batch_accuracy = []
+        total_elements_in_batch = []
         for x_batch, y_batch in data_loader:
             x_batch = x_batch.to(self.device)
             y_batch = y_batch.to(self.device)
             
-            batch_loss, batch_accuracy = step_fn(x_batch, y_batch)
-            mini_batch_accuracy.append(batch_accuracy)
+            batch_loss, batch_accuracy, total_elements = step_fn(x_batch, y_batch)
+            mini_batch_accuracy.append(int(batch_accuracy.item()))
             mini_batch_loss.append(batch_loss)
-        accuracy = np.mean(mini_batch_accuracy)
+            total_elements_in_batch.append(total_elements)
+        #print(mini_batch_accuracy, "mini_batch_accuracy")
+        #print(sum(mini_batch_accuracy), "sum mini_batch_accuracy")
+        #print(len(data_loader.dataset) ,"dataloader length")
+        #accuracy = np.mean(mini_batch_accuracy)
         loss = np.mean(mini_batch_loss)
+        #accuracy = sum(mini_batch_accuracy)/len(data_loader.dataset)
+        accuracy = sum(mini_batch_accuracy)/sum(total_elements_in_batch)
+        #no_elements = sum(total_elements_in_batch)
+        #print(no_elements, "no_elements")
         return loss, accuracy
     
     def set_seed(self, seed=42):
@@ -168,6 +181,13 @@ class Engine:
                 self.val_accuracy.append(val_accuracy)
             if epoch % self.ckpt_interval == 0:
                 self.save_checkpoint(epoch)
+            print(
+            f'Epoch: {epoch+1} | '
+            f'train_loss: {loss:.4f} | '
+            f'train_acc: {accuracy:.4f} | '
+            f'test_loss: {val_loss:.4f} | '
+            f'test_acc: {val_accuracy:.4f}',
+            )
             if self.writer:
                 scalars = {"training": loss}
                 if val_loss is not None:
@@ -177,17 +197,17 @@ class Engine:
                     tag_scalar_dict=scalars,
                     global_step=epoch,
                 )
-        val_data_loader = self.train_loader
-        y__hat = torch.empty((16,1), dtype=torch.float32)
-        Y = torch.empty((16,1), dtype=torch.float32)
-        for step, (x, y) in enumerate(val_data_loader):
-            y_hat = torch.as_tensor(self.predict(x)>=self.threshold).float()
-            y__hat = torch.cat((y__hat, y_hat), 0)
-            Y = torch.cat((Y, y), 0)
-        y__hat = y__hat[16:].float().numpy()
-        Y =  Y[16:].float().numpy()
-        self.plot_confusion_matrix(Y, y__hat)
-        print("classification report is \n",classification_report(Y, y__hat))
+        
+        # y__hat = torch.empty((16,1), dtype=torch.float32)
+        # Y = torch.empty((16,1), dtype=torch.float32)
+        # for step, (x, y) in enumerate(val_data_loader):
+        #     y_hat = torch.as_tensor(self.predict(x)>=self.threshold).float()
+        #     y__hat = torch.cat((y__hat, y_hat), 0)
+        #     Y = torch.cat((Y, y), 0)
+        # y__hat = y__hat[16:].float().numpy()
+        # Y =  Y[16:].float().numpy()
+        self.plot_confusion_matrix()
+        # print("classification report is \n",classification_report(Y, y__hat))
         #self.roc_auc_score_multiclass(Y, y__hat)
         
         self.save_checkpoint(epoch, LATEST=True)
@@ -265,18 +285,42 @@ class Engine:
             p.numel() for p in self.model.parameters() if p.requires_grad
         )  # noqa
      
-    def plot_confusion_matrix(self, y_true, y_pred):
-        cm = confusion_matrix(y_true, y_pred)
-        class_names = ('1','0')
-        df = pd.DataFrame(cm, index=class_names, columns=class_names)
-        fig = plt.figure(figsize = (10,4))
-        # Create heatmap
-        sns.heatmap(df, annot=True, fmt="d", cmap='BuGn')
-        plt.title("Confusion Matrix"), plt.tight_layout()
-        plt.ylabel("True Class"), 
-        plt.xlabel("Predicted Class")
-        #plt.show()
+    def plot_confusion_matrix(self):
+        val_data_loader, class_names, len_val = load_complete_val_dataset(testDir=cfg.VAL_DIR, valTransforms=cfg.VAL_TRANSFORMS)
+        with torch.no_grad():
+            correct = 0
+            for X_test, y_test in val_data_loader:
+                X_test = X_test.to(cfg.DEVICE)  
+                y_test = y_test.to(cfg.DEVICE)
+                y_hat = self.model(X_test)
+                _, out = torch.max(y_hat, dim=1)
+                predicted = torch.max(y_hat,1)[1]
+                correct += (predicted == y_test).sum()
+                #correct += (y_hat == y_test).float().sum()
+
+        print(f'Test accuracy: {correct.item()}/{len_val} = {correct.item()*100/len_val:7.3f}%')
+        cm = confusion_matrix(y_test.view(-1).detach().cpu().numpy(), predicted.view(-1).detach().cpu().numpy())
+        print("classification report is \n",classification_report(y_test.view(-1).detach().cpu().numpy(), predicted.view(-1).detach().cpu().numpy()))
+        # class_names = ['ADVE', 'Email', 'Form', 'Letter', 'Memo', 'News', 'Note', 'Report', 'Resume', 'Scientific']
+        df_cm = pd.DataFrame(cm, index=class_names, columns=class_names)
+        fig = plt.figure(figsize = (9,6))
+        sns.heatmap(df_cm, annot=True, fmt="d", cmap='BuGn')
+        plt.xlabel("prediction")
+        plt.ylabel("label (ground truth)")
+        # plt.show()
         fig.savefig(os.path.join(self.parent_folder_path, "plot_confusion_matrix"))
+        
+        # cm = confusion_matrix(y_true, y_pred)
+        # class_names = ('1','0')
+        # df = pd.DataFrame(cm, index=class_names, columns=class_names)
+        # fig = plt.figure(figsize = (10,4))
+        # # Create heatmap
+        # sns.heatmap(df, annot=True, fmt="d", cmap='BuGn')
+        # plt.title("Confusion Matrix"), plt.tight_layout()
+        # plt.ylabel("True Class"), 
+        # plt.xlabel("Predicted Class")
+        # #plt.show()
+        # fig.savefig(os.path.join(self.parent_folder_path, "plot_confusion_matrix"))
         
         
     def split_cm(self,cm):

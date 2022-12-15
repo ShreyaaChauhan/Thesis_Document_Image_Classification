@@ -20,7 +20,7 @@ INPUT_WIDTH = 224
 
 # Set hyperparameters
 BATCH_SIZE = 32
-LEARNING_RATE = 0.001
+LEARNING_RATE = 0.0001
 VAL_SPLIT = 0.2
 EPOCHS = 100
 
@@ -30,30 +30,32 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 # apply transformations to your data
 TRAIN_TRANSFORMS = transforms.Compose(
     [
-        # transforms.Grayscale(num_output_channels=3),
+        transforms.Grayscale(num_output_channels=3),
         transforms.Resize(size=(INPUT_HEIGHT, INPUT_WIDTH)),
         # transforms.RandomHorizontalFlip(p=0.25),
         # transforms.RandomVerticalFlip(p=0.25),
         # transforms.RandomRotation(degrees=15),
         transforms.ToTensor(),
-        # transforms.Normalize(mean=[0.485],
-        #                      std=[0.229])
+        transforms.Normalize(mean=[0.485, 0.485, 0.485], std=[0.229, 0.229, 0.229]),
     ],
 )
 
 VAL_TRANSFORMS = transforms.Compose(
     [
-        # transforms.Grayscale(num_output_channels=1),
+        transforms.Grayscale(num_output_channels=3),
         transforms.Resize(size=(INPUT_HEIGHT, INPUT_WIDTH)),
         transforms.ToTensor(),
-        # transforms.Normalize(mean=[0.485],
-        #                      std=[0.229])
+        transforms.Normalize(mean=[0.485, 0.485, 0.485], std=[0.229, 0.229, 0.229]),
     ],
 )
 
-IMBALANCED_DATASET = False
+IMBALANCED_DATASET = True
 
 NUM_WORKERS = 0  # os.cpu_count()
 
 
-CKPT_INTERVAL = 40
+CKPT_INTERVAL = 2
+
+PRETRAINED = True
+
+FINE_TUNE = False

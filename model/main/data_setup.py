@@ -8,6 +8,7 @@ from torch.utils.data import DataLoader
 from torch.utils.data import WeightedRandomSampler
 from torchvision import transforms
 from torchvision.datasets import ImageFolder
+import config as cfg
 
 
 def copy_images(image_Paths: list, folder: str):
@@ -137,4 +138,16 @@ def load_data(
         num_workers=num_workers,
         pin_memory=True,
     )
-    return trainDataLoader, valDataLoader, class_names
+    return (
+        trainDataLoader,
+        valDataLoader,
+        class_names,
+    )
+
+
+def load_complete_val_dataset(testDir: str, valTransforms: transforms.Compose):
+    valDataset = ImageFolder(root=testDir, transform=valTransforms)
+    class_names = valDataset.classes
+    batch = len(valDataset)
+    valDataLoader = DataLoader(valDataset, batch_size=batch)
+    return valDataLoader, class_names, batch
