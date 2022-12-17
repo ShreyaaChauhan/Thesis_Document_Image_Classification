@@ -103,6 +103,9 @@ sbs.set_loader(trainDataLoader, testDataLoader)
 inputs, classes = next(iter(trainDataLoader))
 sbs.set_tensorboard("classy")
 start_time = timer()
+# sbs.load_checkpoint(
+#     "/Users/shreyachauhan/Thesis_Document_Image_Classification/model/main/checkpoints/epoch_20.pth"
+# )
 sbs.train(n_epochs=cfg.EPOCHS)
 end_time = timer()
 print(f"[INFO] Total training time: {end_time-start_time:.3f} seconds")

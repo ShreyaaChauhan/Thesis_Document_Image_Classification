@@ -20,9 +20,9 @@ INPUT_WIDTH = 224
 
 # Set hyperparameters
 BATCH_SIZE = 32
-LEARNING_RATE = 0.0001
+LEARNING_RATE = 0.001
 VAL_SPLIT = 0.2
-EPOCHS = 100
+EPOCHS = 80
 
 # set device to cuda if gpu is available
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
@@ -58,4 +58,4 @@ CKPT_INTERVAL = 2
 
 PRETRAINED = True
 
-FINE_TUNE = False
+FINE_TUNE = True
