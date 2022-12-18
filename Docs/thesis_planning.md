@@ -47,3 +47,5 @@ Start Date - 9th November 2022
 
 17th December 2022
 - [X] Create Script to convert dataset from tiff format to jpg 
+18th Decvember 2022
+- [ ] plot confusion matrix using batches
