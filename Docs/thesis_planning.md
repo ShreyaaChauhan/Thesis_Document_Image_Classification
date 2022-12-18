@@ -46,4 +46,4 @@ Start Date - 9th November 2022
 
 
 17th December 2022
-- [ ] Create Script to convert dataset from tiff format to jpg 
+- [X] Create Script to convert dataset from tiff format to jpg 
