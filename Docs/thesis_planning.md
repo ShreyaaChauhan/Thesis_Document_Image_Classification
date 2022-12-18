@@ -43,3 +43,9 @@ Start Date - 9th November 2022
 
 28th November 2022
 - [ ] Look into [this](https://github.com/IgorSusmelj/pytorch-styleguide#recommended-code-structure-for-training-your-model) pytorch style guide and follow it in your code.
+
+
+17th December 2022
+- [X] Create Script to convert dataset from tiff format to jpg 
+18th Decvember 2022
+- [ ] plot confusion matrix using batches
