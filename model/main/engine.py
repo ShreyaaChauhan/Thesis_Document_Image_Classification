@@ -21,7 +21,7 @@ from data_setup import load_complete_val_dataset
 plt.style.use("fivethirtyeight")
 
 class Engine:
-    def __init__(self, model, loss_fn, optimizer, val_transforms):
+    def __init__(self, model, loss_fn, optimizer,classNames, val_transforms):
         self.model = model 
         self.loss_fn = loss_fn 
         self.optimizer = optimizer 
@@ -47,6 +47,7 @@ class Engine:
         self.true_positive = 0
         self.threshold = 0.5
         self.val_transforms = val_transforms
+        self.classNames = classNames
         
     def to(self,device):
         try:
@@ -286,23 +287,25 @@ class Engine:
         )  # noqa
      
     def plot_confusion_matrix(self):
-        val_data_loader, class_names, len_val = load_complete_val_dataset(testDir=cfg.VAL_DIR, valTransforms=cfg.VAL_TRANSFORMS)
+        data_loader = self.val_loader
+        y_pred = []
+        y_label = []
+        correct = 0
         with torch.no_grad():
-            correct = 0
-            for X_test, y_test in val_data_loader:
+            for X_test, y_test in data_loader:
                 X_test = X_test.to(cfg.DEVICE)  
                 y_test = y_test.to(cfg.DEVICE)
                 y_hat = self.model(X_test)
-                _, out = torch.max(y_hat, dim=1)
                 predicted = torch.max(y_hat,1)[1]
-                correct += (predicted == y_test).sum()
-                #correct += (y_hat == y_test).float().sum()
-
-        print(f'Test accuracy: {correct.item()}/{len_val} = {correct.item()*100/len_val:7.3f}%')
-        cm = confusion_matrix(y_test.view(-1).detach().cpu().numpy(), predicted.view(-1).detach().cpu().numpy())
-        print("classification report is \n",classification_report(y_test.view(-1).detach().cpu().numpy(), predicted.view(-1).detach().cpu().numpy()))
-        # class_names = ['ADVE', 'Email', 'Form', 'Letter', 'Memo', 'News', 'Note', 'Report', 'Resume', 'Scientific']
-        df_cm = pd.DataFrame(cm, index=class_names, columns=class_names)
+                y_pred +=  predicted.tolist()
+                y_label += y_test.tolist()
+        for i, (y_hat, y) in enumerate(zip(y_pred, y_label)):
+            if y_hat==y:
+                correct +=1
+        print(f'Test accuracy: {correct}/{len(y_hat)} = {correct*100/len(y_hat):7.3f}%')
+        cm = confusion_matrix(y_pred,y_label)
+        print("classification report is \n",classification_report(y_pred,y_label))
+        df_cm = pd.DataFrame(cm, index=self.classNames, columns=self.classNames)
         fig = plt.figure(figsize = (9,6))
         sns.heatmap(df_cm, annot=True, fmt="d", cmap='BuGn')
         plt.xlabel("prediction")
@@ -310,16 +313,27 @@ class Engine:
         # plt.show()
         fig.savefig(os.path.join(self.parent_folder_path, "plot_confusion_matrix"))
         
-        # cm = confusion_matrix(y_true, y_pred)
-        # class_names = ('1','0')
-        # df = pd.DataFrame(cm, index=class_names, columns=class_names)
-        # fig = plt.figure(figsize = (10,4))
-        # # Create heatmap
-        # sns.heatmap(df, annot=True, fmt="d", cmap='BuGn')
-        # plt.title("Confusion Matrix"), plt.tight_layout()
-        # plt.ylabel("True Class"), 
-        # plt.xlabel("Predicted Class")
-        # #plt.show()
+        # val_data_loader, class_names, len_val = load_complete_val_dataset(testDir=cfg.VAL_DIR, valTransforms=cfg.VAL_TRANSFORMS)
+        # with torch.no_grad():
+        #     correct = 0
+        #     for X_test, y_test in val_data_loader:
+        #         X_test = X_test.to(cfg.DEVICE)  
+        #         y_test = y_test.to(cfg.DEVICE)
+        #         y_hat = self.model(X_test)
+        #         _, out = torch.max(y_hat, dim=1)
+        #         predicted = torch.max(y_hat,1)[1]
+        #         correct += (predicted == y_test).sum()
+
+        # print(f'Test accuracy: {correct.item()}/{len_val} = {correct.item()*100/len_val:7.3f}%')
+        # cm = confusion_matrix(y_test.view(-1).detach().cpu().numpy(), predicted.view(-1).detach().cpu().numpy())
+        # print("classification report is \n",classification_report(y_test.view(-1).detach().cpu().numpy(), predicted.view(-1).detach().cpu().numpy()))
+        
+        # df_cm = pd.DataFrame(cm, index=class_names, columns=class_names)
+        # fig = plt.figure(figsize = (9,6))
+        # sns.heatmap(df_cm, annot=True, fmt="d", cmap='BuGn')
+        # plt.xlabel("prediction")
+        # plt.ylabel("label (ground truth)")
+        # # plt.show()
         # fig.savefig(os.path.join(self.parent_folder_path, "plot_confusion_matrix"))
         
         

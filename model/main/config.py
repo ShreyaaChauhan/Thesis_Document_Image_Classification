@@ -22,7 +22,7 @@ INPUT_WIDTH = 224
 BATCH_SIZE = 32
 LEARNING_RATE = 0.001
 VAL_SPLIT = 0.2
-EPOCHS = 80
+EPOCHS = 1
 
 # set device to cuda if gpu is available
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
@@ -49,7 +49,7 @@ VAL_TRANSFORMS = transforms.Compose(
     ],
 )
 
-IMBALANCED_DATASET = True
+IMBALANCED_DATASET = False
 
 NUM_WORKERS = 0  # os.cpu_count()
 
