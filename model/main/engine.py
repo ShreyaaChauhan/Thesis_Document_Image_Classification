@@ -302,7 +302,7 @@ class Engine:
         for i, (y_hat, y) in enumerate(zip(y_pred, y_label)):
             if y_hat==y:
                 correct +=1
-        print(f'Test accuracy: {correct}/{len(y_hat)} = {correct*100/len(y_hat):7.3f}%')
+        print(f'Test accuracy: {correct}/{len(y_pred)} = {correct*100/len(y_pred):7.3f}%')
         cm = confusion_matrix(y_pred,y_label)
         print("classification report is \n",classification_report(y_pred,y_label))
         df_cm = pd.DataFrame(cm, index=self.classNames, columns=self.classNames)
